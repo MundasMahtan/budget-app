@@ -1,0 +1,2 @@
+# Force LF line endings everywhere — this is a Linux-native project
+* text=auto eol=lf
