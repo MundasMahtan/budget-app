@@ -1,0 +1,537 @@
+/* ── Design tokens ─────────────────────────────────────── */
+:root {
+  --text-primary:    #111111;
+  --text-secondary:  #6B6B6B;
+  --text-tertiary:   #AAAAAA;
+  --text-info:       #185FA5;
+  --text-success:    #3B6D11;
+  --text-danger:     #A32D2D;
+
+  --bg-primary:      #FFFFFF;
+  --bg-secondary:    #F5F5F5;
+  --bg-tertiary:     #EBEBEB;
+  --bg-info:         #E6F1FB;
+  --bg-danger:       #FBE6E6;
+
+  --border-tertiary: #DDDDDD;
+  --border-info:     #B3D4F5;
+  --border-danger:   #F5B3B3;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+/* ── Reset & base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; background: none; border: none; font-family: inherit; }
+input, select { font-family: inherit; font-size: 14px; color: var(--text-primary); }
+input::placeholder { color: var(--text-tertiary); }
+
+/* ── App shell ─────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--bg-primary);
+}
+
+#screen-container { flex: 1; overflow-y: auto; }
+
+/* ── Tab bar ───────────────────────────────────────────── */
+.tab-bar {
+  display: flex;
+  border-top: 0.5px solid var(--border-tertiary);
+  background: var(--bg-primary);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 4px 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.tab.active {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ── Screen header ─────────────────────────────────────── */
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+}
+
+.screen-header-title {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.screen-header-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Three-column header for secondary screens (edit, drill-in) */
+.screen-header-3col {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+}
+
+.screen-header-3col .header-left  { text-align: left; }
+.screen-header-3col .header-center { text-align: center; font-size: 15px; font-weight: 500; }
+.screen-header-3col .header-right  { text-align: right; }
+
+/* ── Section header strip ──────────────────────────────── */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px 6px;
+  background: var(--bg-tertiary);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.section-header-label { font-weight: 400; }
+.section-header-value { font-weight: 500; }
+
+/* ── List rows ─────────────────────────────────────────── */
+.list-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+  background: var(--bg-primary);
+}
+
+.list-row:last-child { border-bottom: none; }
+
+.list-row-left  { flex: 1; min-width: 0; }
+.list-row-right { flex-shrink: 0; margin-left: 12px; text-align: right; }
+
+.row-title    { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+/* ── Date group header ─────────────────────────────────── */
+.date-header {
+  padding: 12px 16px 6px;
+  background: var(--bg-tertiary);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ── Amount display ────────────────────────────────────── */
+.amount { font-size: 15px; font-weight: 500; }
+.amount-income  { color: var(--text-success); }
+.amount-expense { color: var(--text-primary); }
+.amount-danger  { color: var(--text-danger); }
+.amount-info    { color: var(--text-info); }
+
+/* ── Progress bar ──────────────────────────────────────── */
+.progress-track {
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-track.thin { height: 4px; }
+
+.progress-fill {
+  height: 100%;
+  background: var(--text-info);
+  border-radius: 3px;
+  transition: width 0.2s ease;
+}
+
+.progress-fill.over-budget { background: var(--text-danger); }
+
+/* ── Summary cards ─────────────────────────────────────── */
+.summary-cards {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.summary-card {
+  flex: 1;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+
+.summary-card-label  { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.summary-card-amount { font-size: 15px; font-weight: 500; }
+
+/* ── Quick-add panel ───────────────────────────────────── */
+.quick-add {
+  background: var(--bg-secondary);
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+}
+
+.quick-add-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.quick-add-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* ── Inputs ────────────────────────────────────────────── */
+.input {
+  height: 36px;
+  padding: 0 10px;
+  border: 0.5px solid var(--border-tertiary);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.input:focus { border-color: var(--border-info); }
+.input.error  { border-color: var(--text-danger); }
+
+.input-amount {
+  width: 90px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.input-full { width: 100%; }
+.input-flex { flex: 1; }
+
+.input-budget {
+  width: 70px;
+  text-align: right;
+}
+
+select.input { padding-right: 4px; }
+
+/* Label + input pair */
+.field { margin-bottom: 14px; }
+.field-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: block; }
+
+/* ── Buttons ───────────────────────────────────────────── */
+.btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--bg-info);
+  color: var(--text-info);
+  border: 0.5px solid var(--border-info);
+}
+
+.btn-secondary {
+  background: none;
+  color: var(--text-info);
+  border: 0.5px solid var(--border-info);
+  font-size: 13px;
+}
+
+.btn-danger {
+  width: 100%;
+  background: none;
+  color: var(--text-danger);
+  border: 0.5px solid var(--border-danger);
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  padding: 4px 0;
+  height: auto;
+}
+
+.btn-text-secondary { color: var(--text-secondary); font-weight: 400; font-size: 14px; }
+.btn-text-info      { color: var(--text-info); font-weight: 500; font-size: 14px; }
+
+/* ── Budget carry-forward banner ───────────────────────── */
+.budget-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-info);
+  border-bottom: 0.5px solid var(--border-info);
+}
+
+.budget-banner-label  { font-size: 12px; color: var(--text-info); margin-bottom: 4px; }
+.budget-banner-total  { font-size: 17px; font-weight: 500; color: var(--text-info); }
+
+/* ── Budget subcategory row ────────────────────────────── */
+.budget-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+  gap: 10px;
+}
+
+.budget-row-indicator {
+  width: 3px;
+  align-self: stretch;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.budget-row-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+.budget-row-name.empty { color: var(--text-tertiary); }
+
+.budget-row-suffix { font-size: 13px; color: var(--text-secondary); flex-shrink: 0; }
+
+/* ── Modal / delete confirmation ───────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-dialog {
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--border-tertiary);
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+}
+
+.modal-body {
+  padding: 18px 16px 14px;
+  text-align: center;
+}
+
+.modal-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+
+.modal-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.modal-footer {
+  display: flex;
+  border-top: 0.5px solid var(--border-tertiary);
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.modal-btn + .modal-btn { border-left: 0.5px solid var(--border-tertiary); }
+.modal-btn-danger { color: var(--text-danger); font-weight: 500; }
+.modal-btn-info   { color: var(--text-info);   font-weight: 500; }
+
+/* ── Toast ─────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border-tertiary);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  z-index: 200;
+  white-space: nowrap;
+}
+
+.toast.success { color: var(--text-success); border-color: #9BC87A; }
+.toast.error   { color: var(--text-danger);  border-color: var(--border-danger); }
+
+/* ── Empty state ───────────────────────────────────────── */
+.empty-state {
+  padding: 48px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ── Edit transaction form ─────────────────────────────── */
+.form-body { padding: 16px; }
+
+.amount-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.amount-suffix { font-size: 14px; color: var(--text-secondary); }
+
+.created-at-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--border-tertiary);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.delete-section {
+  padding: 16px;
+  border-top: 0.5px solid var(--border-tertiary);
+}
+
+/* ── Tappable rows ─────────────────────────────────────── */
+.tappable { cursor: pointer; }
+.tappable:active { background: var(--bg-secondary); }
+
+/* ── Month selector ────────────────────────────────────── */
+.month-select {
+  height: 30px;
+  padding: 0 6px;
+  border: 0.5px solid var(--border-tertiary);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ── Dashboard section divider ─────────────────────────── */
+.section-divider {
+  padding: 4px 16px 12px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ── Dashboard category rows ───────────────────────────── */
+.category-row {
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+  cursor: pointer;
+}
+
+.category-row:active { background: var(--bg-secondary); }
+
+.category-row-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.category-row-name    { font-size: 14px; font-weight: 500; }
+.category-row-amounts { font-size: 13px; white-space: nowrap; }
+
+/* ── Category drill-in ─────────────────────────────────── */
+.drillIn-header-spacer { width: 40px; flex-shrink: 0; }
+
+.drillIn-total-card {
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+}
+
+.drillIn-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.drillIn-total-label     { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+.drillIn-total-amount    { font-size: 22px; font-weight: 500; }
+.drillIn-projected-amount { font-size: 14px; }
+.drillIn-overbudget      { font-size: 12px; color: var(--text-danger); margin-top: 6px; }
+
+/* Subcategory breakdown rows (drill-in) */
+.sub-row { padding: 10px 16px; border-bottom: 0.5px solid var(--border-tertiary); }
+
+.sub-row-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.sub-row-name    { font-size: 14px; }
+.sub-row-amounts { font-size: 13px; white-space: nowrap; }
+
+/* Filtered transaction rows (drill-in) */
+.tx-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--border-tertiary);
+  cursor: pointer;
+}
+
+.tx-row:active     { background: var(--bg-secondary); }
+.tx-row-left       { flex: 1; min-width: 0; }
+.tx-row-right      { flex-shrink: 0; margin-left: 12px; }
+.tx-row-title      { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tx-row-subtitle   { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.tx-row-amount     { font-size: 14px; font-weight: 500; }
+
+/* ── Utilities ─────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary  { color: var(--text-tertiary); }
+.text-info      { color: var(--text-info); }
+.text-success   { color: var(--text-success); }
+.text-danger    { color: var(--text-danger); }
+
+.fw-500 { font-weight: 500; }
+.fs-11  { font-size: 11px; }
+.fs-12  { font-size: 12px; }
+.fs-13  { font-size: 13px; }
+.fs-14  { font-size: 14px; }
+.fs-15  { font-size: 15px; }
+.fs-17  { font-size: 17px; }
+.fs-22  { font-size: 22px; }
