@@ -183,6 +183,12 @@ input::placeholder { color: var(--text-tertiary); }
   padding: 10px;
 }
 
+.summary-card-denominator {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
 .summary-card-label  { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
 .summary-card-amount { font-size: 15px; font-weight: 500; }
 

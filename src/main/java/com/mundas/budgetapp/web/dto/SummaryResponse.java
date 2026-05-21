@@ -6,6 +6,7 @@ import java.util.List;
 public record SummaryResponse(
         BigDecimal totalIncome,
         BigDecimal totalExpenses,
+        BigDecimal totalProjectedExpenses,
         BigDecimal balance,
         List<CategorySummary> categoryBreakdown
 ) {

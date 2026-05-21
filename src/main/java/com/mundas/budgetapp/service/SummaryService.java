@@ -49,6 +49,11 @@ public class SummaryService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_UP);
 
+        BigDecimal totalProjectedExpenses = budgets.stream()
+                .map(MonthlyBudget::getProjectedAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
+
         BigDecimal balance = totalIncome.subtract(totalExpenses)
                 .setScale(2, RoundingMode.HALF_UP);
 
@@ -89,6 +94,6 @@ public class SummaryService {
                 })
                 .toList();
 
-        return new SummaryResponse(totalIncome, totalExpenses, balance, breakdown);
+        return new SummaryResponse(totalIncome, totalExpenses, totalProjectedExpenses, balance, breakdown);
     }
 }

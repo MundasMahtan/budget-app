@@ -474,6 +474,7 @@ function renderDashboardContent(contentEl, summary) {
 function buildSummaryCards(summary) {
   const income   = parseFloat(summary.totalIncome)   || 0;
   const expenses = parseFloat(summary.totalExpenses) || 0;
+  const projected = parseFloat(summary.totalProjectedExpenses) || 0;
   const balance  = parseFloat(summary.balance)       || 0;
 
   const cards = document.createElement('div');
@@ -496,12 +497,28 @@ function buildSummaryCards(summary) {
     return card;
   }
 
+  function makeExpensesCard(spent, projectedTotal) {
+    const overBudget = projectedTotal > 0 && spent > projectedTotal
+    const card = makeCard(STRINGS.dashboard.expenses, spent, overBudget ? 'text-danger' : '', ''
+    );
+
+    if (projectedTotal > 0) {
+      const denomEl = document.createElement('div');
+      denomEl.className = 'summary-card-denominator';
+      denomEl.textContent = ' / ' + formatMoney(projectedTotal);
+      card.appendChild(denomEl);
+      card.appendChild(buildProgressBar(spent, projectedTotal, true)); // thin bar
+    }
+
+    return card;
+  }
+
   const balanceAbs    = Math.abs(balance);
   const balanceClass  = balance >= 0 ? 'text-success' : 'text-danger';
   const balancePrefix = balance >= 0 ? '+' : '−';
 
   cards.appendChild(makeCard(STRINGS.dashboard.income,   income,      'text-success', ''));
-  cards.appendChild(makeCard(STRINGS.dashboard.expenses, expenses,    '',             ''));
+  cards.appendChild(makeExpensesCard(expenses, projected));
   cards.appendChild(makeCard(STRINGS.dashboard.balance,  balanceAbs,  balanceClass,  balancePrefix));
 
   return cards;

@@ -49,7 +49,7 @@ const api = {
   },
 
   summary: {
-    // GET /api/v1/summary?year=&month= → {totalIncome, totalExpenses, balance, categoryBreakdown}
+    // GET /api/v1/summary?year=&month= → {totalIncome, totalExpenses, projectedExpenses, balance, categoryBreakdown}
     get: (year, month) =>
       apiFetch(`/summary?year=${year}&month=${month}`),
   },
