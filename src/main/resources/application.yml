@@ -1,32 +1,20 @@
 spring:
   datasource:
-    url: jdbc:sqlite:budget.db
-    driver-class-name: org.sqlite.JDBC
-    hikari:
-      # SQLite allows only one writer at a time; pool-size=1 prevents "database is locked" errors
-      maximum-pool-size: 1
-      # HikariCP calls Connection.isValid() by default; sqlite-jdbc doesn't implement it reliably,
-      # so we tell Hikari to use a real query instead
-      connection-test-query: SELECT 1
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:budgetapp}
+    username: ${DB_USER:budgetapp}
+    password: ${DB_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
-    # Let Flyway own the schema — Hibernate must NEVER create or alter tables
     hibernate:
       ddl-auto: none
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
-    # Log the SQL Hibernate sends to the database — invaluable for learning and debugging
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-    # Disable Open Session in View. By default Spring Boot keeps the JPA session open
-    # for the entire HTTP request so lazy-loaded collections can be fetched during JSON
-    # serialisation. This causes silent N+1 query bugs. We close the session at the
-    # service boundary and load everything we need explicitly.
     open-in-view: false
 
   flyway:
     enabled: true
     locations: classpath:db/migration
-    # Tell Flyway to read migration files as UTF-8 (needed for Greek characters in V2)
     encoding: UTF-8
