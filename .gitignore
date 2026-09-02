@@ -21,11 +21,9 @@ Thumbs.db
 # Logs
 *.log
 
-# SQLite (the database file the app will create)
+# The database file the app will create
 *.db
 *.db-journal
-*.sqlite
-*.sqlite3
 
 # Local environment files
 .env
