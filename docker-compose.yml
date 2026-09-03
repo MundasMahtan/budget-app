@@ -10,6 +10,28 @@ services:
       - postgres-data:/var/lib/postgresql
     networks:
       - budget-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "100.78.106.117:8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - budget-net
 
 volumes:
   postgres-data:
